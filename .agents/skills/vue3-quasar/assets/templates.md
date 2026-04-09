@@ -1,8 +1,8 @@
-# Component Templates
+# 元件範本
 
-## Base Component Template
+## 基本元件範本
 
-Use this template for creating reusable components:
+使用此範本建立可重用元件：
 
 ```vue
 <template>
@@ -13,167 +13,166 @@ Use this template for creating reusable components:
 
 <script setup lang="ts">
 interface Props {
-  // Define your props here
-  variant?: 'primary' | 'secondary'
-  size?: 'sm' | 'md' | 'lg'
+  // 在此定義你的 props
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 interface Emits {
-  // Define your emits here
-  update: [value: string]
+  // 在此定義你的 emits
+  update: [value: string];
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
-})
+});
 
-const emit = defineEmits<Emits>()
+const emit = defineEmits<Emits>();
 
 const componentClasses = computed(() => [
   'base-component',
   `base-component--${props.variant}`,
   `base-component--${props.size}`,
-])
+]);
 </script>
 
 <style scoped>
 .base-component {
-  /* Add your styles here */
+  /* 在此新增樣式 */
 }
 </style>
 ```
 
-## Pinia Store Template
+## Pinia Store 範本
 
 ```typescript
 // stores/featureStore.ts
-export const useFeatureStore = defineStore('feature', () => {
-  // State
-  const items = ref<Item[]>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
-
-  // Getters (computed)
-  const itemCount = computed(() => items.value.length)
-  const hasItems = computed(() => itemCount.value > 0)
-
-  // Actions
-  const fetchItems = async () => {
-    try {
-      loading.value = true
-      error.value = null
-      
-      const response = await api.getItems()
-      items.value = response.data
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Failed to fetch items'
-      throw err
-    } finally {
-      loading.value = false
-    }
-  }
-
-  const addItem = async (item: CreateItemPayload) => {
-    try {
-      const response = await api.createItem(item)
-      items.value.push(response.data)
-      return response.data
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Failed to create item'
-      throw err
-    }
-  }
-
-  return {
+export const useFeatureStore = defineStore(
+  'feature',
+  () => {
     // State
-    items: readonly(items),
-    loading: readonly(loading),
-    error: readonly(error),
-    // Getters
-    itemCount,
-    hasItems,
+    const items = ref<Item[]>([]);
+    const loading = ref(false);
+    const error = ref<string | null>(null);
+
+    // Getters (computed)
+    const itemCount = computed(() => items.value.length);
+    const hasItems = computed(() => itemCount.value > 0);
+
     // Actions
-    fetchItems,
-    addItem,
-  }
-}, {
-  persist: {
-    key: 'feature-store',
-    paths: ['items'], // Only persist specific state
+    const fetchItems = async () => {
+      try {
+        loading.value = true;
+        error.value = null;
+
+        const response = await api.getItems();
+        items.value = response.data;
+      } catch (err) {
+        error.value = err instanceof Error ? err.message : 'Failed to fetch items';
+        throw err;
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const addItem = async (item: CreateItemPayload) => {
+      try {
+        const response = await api.createItem(item);
+        items.value.push(response.data);
+        return response.data;
+      } catch (err) {
+        error.value = err instanceof Error ? err.message : 'Failed to create item';
+        throw err;
+      }
+    };
+
+    return {
+      // State
+      items: readonly(items),
+      loading: readonly(loading),
+      error: readonly(error),
+      // Getters
+      itemCount,
+      hasItems,
+      // Actions
+      fetchItems,
+      addItem,
+    };
   },
-})
+  {
+    persist: {
+      key: 'feature-store',
+      paths: ['items'], // 只持久化指定狀態
+    },
+  },
+);
 ```
 
-## Composable Template
+## Composable 範本
 
 ```typescript
 // composables/useFeature.ts
 export function useFeature(options: FeatureOptions = {}) {
-  const { autoFetch = true } = options
-  
+  const { autoFetch = true } = options;
+
   const state = ref<FeatureState>({
     data: null,
     loading: false,
     error: null,
-  })
+  });
 
   const execute = async (...args: any[]) => {
     try {
-      state.value.loading = true
-      state.value.error = null
-      
-      // Your logic here
-      const result = await someAsyncOperation(...args)
-      
-      state.value.data = result
-      return result
+      state.value.loading = true;
+      state.value.error = null;
+
+      // 在此加入你的邏輯
+      const result = await someAsyncOperation(...args);
+
+      state.value.data = result;
+      return result;
     } catch (err) {
-      state.value.error = err instanceof Error ? err.message : 'Unknown error'
-      throw err
+      state.value.error = err instanceof Error ? err.message : 'Unknown error';
+      throw err;
     } finally {
-      state.value.loading = false
+      state.value.loading = false;
     }
-  }
+  };
 
   onMounted(() => {
     if (autoFetch) {
-      execute()
+      execute();
     }
-  })
+  });
 
   return {
     ...toRefs(state),
     execute,
     refresh: execute,
-  }
+  };
 }
 ```
 
-## Page Component Template
+## Page 元件範本
 
 ```vue
 <template>
   <q-page class="q-pa-md">
-    <!-- Page Header -->
+    <!-- 頁面標題 -->
     <div class="row items-center justify-between q-mb-lg">
       <h1 class="text-h4 text-weight-bold q-ma-none">
         {{ pageTitle }}
       </h1>
-      
-      <q-btn
-        color="primary"
-        icon="add"
-        label="Add New"
-        @click="handleAdd"
-      />
+
+      <q-btn color="primary" icon="add" label="Add New" @click="handleAdd" />
     </div>
 
-    <!-- Content Area -->
+    <!-- 內容區 -->
     <div v-if="loading" class="flex flex-center q-pt-xl">
       <q-spinner-grid size="50px" />
     </div>
-    
+
     <div v-else-if="error" class="q-pa-md">
       <q-banner type="negative" icon="error">
         {{ error }}
@@ -182,9 +181,9 @@ export function useFeature(options: FeatureOptions = {}) {
         </template>
       </q-banner>
     </div>
-    
+
     <div v-else>
-      <!-- Your content here -->
+      <!-- 在此放置你的內容 -->
     </div>
   </q-page>
 </template>
@@ -194,17 +193,17 @@ export function useFeature(options: FeatureOptions = {}) {
 definePageMeta({
   title: 'Page Title',
   requiresAuth: true,
-})
+});
 
 // Composables
-const { data, loading, error, refresh } = useApi('/api/data')
+const { data, loading, error, refresh } = useApi('/api/data');
 
 // State
-const pageTitle = 'Your Page Title'
+const pageTitle = 'Your Page Title';
 
 // Methods
 const handleAdd = () => {
-  // Handle add logic
-}
+  // 處理新增邏輯
+};
 </script>
 ```

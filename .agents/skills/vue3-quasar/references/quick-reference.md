@@ -1,33 +1,33 @@
-# Vue 3 + Quasar Quick Reference
+# Vue 3 + Quasar 快速參考
 
-## Essential Patterns for Job Interview Success
+## 面試成功的重點模式
 
-### 🎯 Key Concepts to Master
+### 🎯 必備概念
 
-1. **Composition API** - Replacement for Options API
-2. **Reactivity System** - ref, reactive, computed, watch
-3. **Component Communication** - Props, emits, provide/inject
-4. **State Management** - Pinia stores with persistence
-5. **Quasar Components** - Layout system, responsive design
-6. **Performance** - Lazy loading, code splitting, PWA features
+1. **Composition API** - 取代 Options API 的寫法
+2. **Reactivity System** - `ref`、`reactive`、`computed`、`watch`
+3. **Component Communication** - Props、emits、provide/inject
+4. **State Management** - 使用 Pinia store 並搭配持久化
+5. **Quasar Components** - 版面佈局系統與響應式設計
+6. **Performance** - Lazy loading、code splitting、PWA 功能
 
-### 🚀 Common Interview Questions & Answers
+### 🚀 常見面試題與解答
 
-**Q: What's the difference between ref and reactive?**
+**Q: ref 和 reactive 有什麼差別？**
 
 ```typescript
-// ref - for primitives and single values
+// ref - 適用於基礎值或單一值
 const count = ref(0);
 const user = ref<User | null>(null);
 
-// reactive - for objects (avoid for primitives)
+// reactive - 適用於物件（避免用於基礎值）
 const state = reactive({
   items: [],
   loading: false,
 });
 ```
 
-**Q: How do you handle component communication?**
+**Q: 如何處理元件間溝通？**
 
 ```vue
 <!-- Parent to Child: Props -->
@@ -40,7 +40,7 @@ const state = reactive({
 provide('theme', themeValue) const theme = inject('theme')
 ```
 
-**Q: How do you persist state with Pinia?**
+**Q: 如何使用 Pinia 持久化狀態？**
 
 ```typescript
 export const useStore = defineStore(
@@ -51,14 +51,14 @@ export const useStore = defineStore(
   {
     persist: {
       key: 'my-store',
-      paths: ['user', 'preferences'], // Only persist specific state
-      storage: localStorage, // or sessionStorage
+      paths: ['user', 'preferences'], // 只持久化指定狀態
+      storage: localStorage, // 或 sessionStorage
     },
   },
 );
 ```
 
-### 📱 Quasar Essential Components
+### 📱 Quasar 必備元件
 
 ```vue
 <!-- Layout Structure -->
@@ -104,7 +104,7 @@ export const useStore = defineStore(
 </q-form>
 ```
 
-### 🎨 Quasar Styling Example
+### 🎨 Quasar 樣式範例
 
 ```vue
 <template>
@@ -142,7 +142,7 @@ export const useStore = defineStore(
 </style>
 ```
 
-### 📊 Performance Best Practices
+### 📊 效能最佳實踐
 
 ```vue
 <script setup lang="ts">
@@ -161,7 +161,7 @@ watch(
     // Handle changes
   },
   { deep: true },
-); // Use sparingly
+); // 謹慎使用
 
 // 4. Memoization for complex data
 const memoizedData = computed(() => {
@@ -209,7 +209,7 @@ export const useAuthStore = defineStore(
 );
 ```
 
-### 📱 PWA Setup
+### 📱 PWA 設定
 
 ```typescript
 // quasar.config.js
@@ -240,7 +240,7 @@ module.exports = {
 };
 ```
 
-### 🧪 Testing Patterns
+### 🧪 測試模式
 
 ```typescript
 // Component test

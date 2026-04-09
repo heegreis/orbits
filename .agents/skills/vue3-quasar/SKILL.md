@@ -1,35 +1,35 @@
 ---
 name: vue3-quasar
 description: >
-  Vue.js 3 + Quasar Framework patterns with Composition API and Pinia state management.
-  Trigger: When developing Vue.js 3 applications with Quasar Framework, Composition API, Pinia, or building SPA/PWA/mobile apps.
+  Vue.js 3 + Quasar Framework 模式，搭配 Composition API 與 Pinia 狀態管理。
+  觸發條件：開發 Vue.js 3 + Quasar Framework 應用，使用 Composition API、Pinia，或建立 SPA/PWA/行動應用時。
 license: Apache-2.0
 metadata:
   author: gentleman-programming
   version: '1.0'
 ---
 
-## When to Use
+## 何時使用
 
-- Building Vue.js 3 applications with Quasar Framework
-- Creating reusable, scalable, and decoupled components
-- Implementing Composition API patterns
-- Setting up Pinia for state management with persistence
-- Developing SPA, PWA, or mobile applications with Quasar
-- Applying responsive design with Quasar's grid and utility classes
-- Implementing accessibility best practices
+- 使用 Quasar Framework 建置 Vue.js 3 應用
+- 建立可重用、可擴充、低耦合元件
+- 實作 Composition API 模式
+- 設定 Pinia 進行可持久化的狀態管理
+- 開發 Quasar SPA、PWA 或行動應用
+- 使用 Quasar 格線與工具類別套用響應式設計
+- 實作可及性最佳做法
 
-## Critical Patterns
+## 核心模式
 
-### 🎯 **Component Architecture**
+### 🎯 **元件架構**
 
-- **Composition API FIRST** - No Options API unless legacy
-- **Single Responsibility** - One concern per component
-- **Props Interface** - Always define TypeScript interfaces for props
-- **Emits Definition** - Explicit emit declarations
-- **Slot Strategy** - Named slots for maximum flexibility
+- **Composition API FIRST** - 除非維護 legacy，否則不要使用 Options API
+- **單一職責** - 每個元件只專注一件事
+- **Props 介面** - 為 props 明確定義 TypeScript 介面
+- **Emits 定義** - 明確宣告 emits
+- **Slot 策略** - 使用命名 slot 保持最大彈性
 
-### 🏗️ **Project Structure**
+### 🏗️ **專案結構**
 
 ```
 src/
@@ -44,19 +44,19 @@ src/
 └── types/               # TypeScript type definitions
 ```
 
-### 🔄 **State Management with Pinia**
+### 🔄 **Pinia 狀態管理**
 
-- **Store per Feature** - Separate stores for different domains
-- **Composition Store Style** - Use `setup()` syntax
-- **Persistence Strategy** - Use pinia-plugin-persistedstate
-- **Computed vs Getters** - Prefer computed for derived state
+- **每功能一個 Store** - 不同領域使用不同 store
+- **Composition Store 風格** - 使用 `setup()` 語法
+- **持久化策略** - 使用 pinia-plugin-persistedstate
+- **Computed vs Getters** - 派生狀態優先使用 computed
 
-### 📱 **Quasar Best Practices**
+### 📱 **Quasar 最佳實踐**
 
-- **Platform Detection** - Use `$q.platform` for conditional logic
-- **Responsive Grid** - Leverage Quasar's 12-column grid system
-- **Icon Strategy** - Use Quasar's icon sets (Material Icons recommended)
-- **Theme Customization** - Override SASS variables in quasar.variables.sass
+- **平台偵測** - 使用 `$q.platform` 實作條件邏輯
+- **響應式 Grid** - 善用 Quasar 的 12-column grid 系統
+- **Icon 策略** - 使用 Quasar icon sets (建議 Material Icons)
+- **主題客製化** - 在 quasar.variables.sass 中覆寫 SASS 變數
 
 ## Code Examples
 
@@ -296,9 +296,9 @@ const toggleRightDrawer = () => {
 </script>
 ```
 
-## Commands
+## 指令
 
-### 🚀 **Project Setup**
+### 🚀 **專案設定**
 
 ```bash
 # Create new Quasar project with Vue 3 + TypeScript
@@ -320,7 +320,7 @@ quasar build -m pwa
 quasar build -m cordova -T android
 ```
 
-### 🔧 **Development Tools**
+### 🔧 **開發工具**
 
 ```bash
 # Add TypeScript support
@@ -340,7 +340,7 @@ npm run lint
 npm run format
 ```
 
-### 📱 **Quasar CLI Commands**
+### 📱 **Quasar CLI 指令**
 
 ```bash
 # Add platform
