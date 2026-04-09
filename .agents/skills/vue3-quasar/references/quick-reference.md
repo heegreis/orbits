@@ -14,19 +14,21 @@
 ### 🚀 Common Interview Questions & Answers
 
 **Q: What's the difference between ref and reactive?**
+
 ```typescript
 // ref - for primitives and single values
-const count = ref(0)
-const user = ref<User | null>(null)
+const count = ref(0);
+const user = ref<User | null>(null);
 
 // reactive - for objects (avoid for primitives)
 const state = reactive({
   items: [],
   loading: false,
-})
+});
 ```
 
 **Q: How do you handle component communication?**
+
 ```vue
 <!-- Parent to Child: Props -->
 <ChildComponent :data="parentData" />
@@ -35,21 +37,25 @@ const state = reactive({
 <ChildComponent @update="handleUpdate" />
 
 <!-- Deep component tree: Provide/Inject -->
-provide('theme', themeValue)
-const theme = inject('theme')
+provide('theme', themeValue) const theme = inject('theme')
 ```
 
 **Q: How do you persist state with Pinia?**
+
 ```typescript
-export const useStore = defineStore('store', () => {
-  // Store logic
-}, {
-  persist: {
-    key: 'my-store',
-    paths: ['user', 'preferences'], // Only persist specific state
-    storage: localStorage, // or sessionStorage
+export const useStore = defineStore(
+  'store',
+  () => {
+    // Store logic
   },
-})
+  {
+    persist: {
+      key: 'my-store',
+      paths: ['user', 'preferences'], // Only persist specific state
+      storage: localStorage, // or sessionStorage
+    },
+  },
+);
 ```
 
 ### 📱 Quasar Essential Components
@@ -63,7 +69,7 @@ export const useStore = defineStore('store', () => {
       <q-toolbar-title>App</q-toolbar-title>
     </q-toolbar>
   </q-header>
-  
+
   <q-drawer v-model="drawer" bordered>
     <q-list>
       <q-item clickable>
@@ -71,7 +77,7 @@ export const useStore = defineStore('store', () => {
       </q-item>
     </q-list>
   </q-drawer>
-  
+
   <q-page-container>
     <router-view />
   </q-page-container>
@@ -98,29 +104,40 @@ export const useStore = defineStore('store', () => {
 </q-form>
 ```
 
-### 🎨 Tailwind Integration
+### 🎨 Quasar Styling Example
 
 ```vue
 <template>
-  <!-- Mix Quasar and Tailwind classes -->
-  <q-card class="shadow-lg hover:shadow-xl transition-shadow">
-    <q-card-section class="bg-gradient-to-r from-blue-500 to-purple-600">
-      <h2 class="text-white text-xl font-bold">Card Title</h2>
+  <q-card class="shadow-2 q-pa-md">
+    <q-card-section class="bg-primary text-white">
+      <h2 class="text-h6 text-weight-bold">Card Title</h2>
     </q-card-section>
   </q-card>
 </template>
 
 <style scoped>
-/* Custom Tailwind utilities */
-@apply flex items-center justify-between;
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-/* Responsive design */
 .mobile-only {
-  @apply block md:hidden;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
 }
 
 .desktop-only {
-  @apply hidden md:block;
+  display: none;
 }
 </style>
 ```
@@ -130,24 +147,26 @@ export const useStore = defineStore('store', () => {
 ```vue
 <script setup lang="ts">
 // 1. Lazy loading components
-const LazyComponent = defineAsyncComponent(
-  () => import('./components/HeavyComponent.vue')
-)
+const LazyComponent = defineAsyncComponent(() => import('./components/HeavyComponent.vue'));
 
 // 2. Computed for expensive operations
 const expensiveComputation = computed(() => {
-  return heavyCalculation(props.data)
-})
+  return heavyCalculation(props.data);
+});
 
 // 3. Watch with deep option carefully
-watch(() => props.data, (newVal) => {
-  // Handle changes
-}, { deep: true }) // Use sparingly
+watch(
+  () => props.data,
+  (newVal) => {
+    // Handle changes
+  },
+  { deep: true },
+); // Use sparingly
 
 // 4. Memoization for complex data
 const memoizedData = computed(() => {
-  return useMemo(() => processData(rawData.value), [rawData.value])
-})
+  return useMemo(() => processData(rawData.value), [rawData.value]);
+});
 </script>
 ```
 
@@ -155,35 +174,39 @@ const memoizedData = computed(() => {
 
 ```typescript
 // stores/authStore.ts
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(null)
-  const token = ref<string | null>(null)
-  
-  const isAuthenticated = computed(() => !!user.value && !!token.value)
-  
-  const login = async (credentials: LoginData) => {
-    const response = await authAPI.login(credentials)
-    user.value = response.user
-    token.value = response.token
-    
-    // Set axios default header
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
-  }
-  
-  const logout = () => {
-    user.value = null
-    token.value = null
-    delete axios.defaults.headers.common['Authorization']
-    router.push('/login')
-  }
-  
-  return { user, isAuthenticated, login, logout }
-}, {
-  persist: {
-    key: 'auth',
-    paths: ['user', 'token'],
+export const useAuthStore = defineStore(
+  'auth',
+  () => {
+    const user = ref<User | null>(null);
+    const token = ref<string | null>(null);
+
+    const isAuthenticated = computed(() => !!user.value && !!token.value);
+
+    const login = async (credentials: LoginData) => {
+      const response = await authAPI.login(credentials);
+      user.value = response.user;
+      token.value = response.token;
+
+      // Set axios default header
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`;
+    };
+
+    const logout = () => {
+      user.value = null;
+      token.value = null;
+      delete axios.defaults.headers.common['Authorization'];
+      router.push('/login');
+    };
+
+    return { user, isAuthenticated, login, logout };
   },
-})
+  {
+    persist: {
+      key: 'auth',
+      paths: ['user', 'token'],
+    },
+  },
+);
 ```
 
 ### 📱 PWA Setup
@@ -195,13 +218,15 @@ module.exports = {
     pwa: {
       workbox: {
         navigateFallback: 'index.html',
-        runtimeCaching: [{
-          urlPattern: /^https:\/\/api\.mysite\.com\/.*$/,
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'api-cache',
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/api\.mysite\.com\/.*$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'api-cache',
+            },
           },
-        }],
+        ],
       },
       manifest: {
         name: 'My App',
@@ -212,49 +237,49 @@ module.exports = {
       },
     },
   },
-}
+};
 ```
 
 ### 🧪 Testing Patterns
 
 ```typescript
 // Component test
-import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils';
+import { describe, it, expect } from 'vitest';
 
 describe('MyComponent', () => {
   it('renders correctly', () => {
     const wrapper = mount(MyComponent, {
       props: { title: 'Test' },
-    })
-    
-    expect(wrapper.find('h1').text()).toBe('Test')
-  })
-  
+    });
+
+    expect(wrapper.find('h1').text()).toBe('Test');
+  });
+
   it('emits event on click', async () => {
-    const wrapper = mount(MyComponent)
-    await wrapper.find('button').trigger('click')
-    
-    expect(wrapper.emitted('click')).toBeTruthy()
-  })
-})
+    const wrapper = mount(MyComponent);
+    await wrapper.find('button').trigger('click');
+
+    expect(wrapper.emitted('click')).toBeTruthy();
+  });
+});
 
 // Store test
-import { setActivePinia, createPinia } from 'pinia'
-import { useUserStore } from '@/stores/user'
+import { setActivePinia, createPinia } from 'pinia';
+import { useUserStore } from '@/stores/user';
 
 describe('User Store', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
-  })
-  
+    setActivePinia(createPinia());
+  });
+
   it('handles login correctly', async () => {
-    const store = useUserStore()
-    
-    await store.login({ email: 'test@test.com', password: 'password' })
-    
-    expect(store.isAuthenticated).toBe(true)
-    expect(store.user).toBeTruthy()
-  })
-})
+    const store = useUserStore();
+
+    await store.login({ email: 'test@test.com', password: 'password' });
+
+    expect(store.isAuthenticated).toBe(true);
+    expect(store.user).toBeTruthy();
+  });
+});
 ```
