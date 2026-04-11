@@ -1,43 +1,21 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="q-pa-lg">
+    <div class="row justify-center">
+      <div class="col-12 col-md-8 col-xl-6">
+        <div class="q-mb-xl">
+          <div class="text-h5 q-mb-sm">ZeroClaw SPA Pairing</div>
+          <div class="text-subtitle1 text-grey">
+            此 SPA 可連線到你目前架設的 ZeroClaw Services。請輸入服務 URL 與 pairing code
+            進行配對，配對成功後即可繼續使用 agent 對話。
+          </div>
+        </div>
+
+        <ZeroClawPairingForm />
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
-]);
-
-const meta = ref<Meta>({
-  totalCount: 1200
-});
+import ZeroClawPairingForm from 'components/ZeroClawPairingForm.vue';
 </script>
