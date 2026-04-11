@@ -3,22 +3,10 @@
     <q-card-section>
       <div class="text-h6 q-mb-sm">ZeroClaw Pairing</div>
       <div class="text-subtitle2 q-mb-md">
-        輸入你的 ZeroClaw Services URL 與配對碼，啟用 SPA 與 ZeroClaw 連線。
+        使用同一個 origin proxy 連線到 ZeroClaw Gateway，直接輸入配對碼即可。
       </div>
 
       <q-form @submit.prevent="handleSubmit">
-        <q-input
-          v-model="store.serviceUrl"
-          label="ZeroClaw Service URL"
-          type="url"
-          outlined
-          dense
-          lazy-rules
-          :rules="[(val) => !!val || '請輸入服務網址']"
-          class="q-mb-md"
-          placeholder="https://your-zeroclaw-host:9999"
-        />
-
         <q-input
           v-model="store.pairingCode"
           label="Pairing Code"
@@ -59,9 +47,7 @@
               label="開始配對"
               color="primary"
               :loading="store.pairingStatus === 'pending'"
-              :disable="
-                store.pairingStatus === 'pending' || !store.serviceUrl || !store.pairingCode
-              "
+              :disable="store.pairingStatus === 'pending' || !store.pairingCode"
               type="submit"
             />
           </div>
@@ -96,7 +82,7 @@
       <div v-if="store.isPaired" class="q-pa-sm bg-grey-1 rounded-borders">
         <div class="text-subtitle2 q-mb-xs">已配對</div>
         <div>
-          服務 URL: <strong>{{ store.normalizedServiceUrl }}</strong>
+          透過 proxy 連線：<strong>{{ store.normalizedServiceUrl }}</strong>
         </div>
         <div>
           Token 長度: <strong>{{ store.token.length }}</strong>

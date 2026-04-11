@@ -2,7 +2,6 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { pairWithCode } from '../composables/useZeroClawGateway';
 
 export interface ZeroClawState {
-  serviceUrl: string;
   pairingCode: string;
   deviceName: string;
   deviceType: string;
@@ -13,13 +12,11 @@ export interface ZeroClawState {
 }
 
 const STORAGE_KEYS = {
-  serviceUrl: 'zeroclaw.serviceUrl',
   token: 'zeroclaw.token',
 };
 
 export const useZeroClawStore = defineStore('zeroclaw', {
   state: (): ZeroClawState => ({
-    serviceUrl: '',
     pairingCode: '',
     deviceName: '',
     deviceType: '',
@@ -31,13 +28,11 @@ export const useZeroClawStore = defineStore('zeroclaw', {
 
   getters: {
     isPaired: (state) => state.token.length > 0,
-    normalizedServiceUrl: (state) => {
-      try {
-        const url = new URL(state.serviceUrl.trim());
-        return url.toString().replace(/\/+$/, '');
-      } catch {
-        return state.serviceUrl.trim();
+    normalizedServiceUrl: () => {
+      if (typeof window === 'undefined') {
+        return '';
       }
+      return window.location.origin;
     },
   },
 
@@ -46,11 +41,7 @@ export const useZeroClawStore = defineStore('zeroclaw', {
       if (typeof window === 'undefined') {
         return;
       }
-      const storedUrl = window.localStorage.getItem(STORAGE_KEYS.serviceUrl);
       const storedToken = window.localStorage.getItem(STORAGE_KEYS.token);
-      if (storedUrl) {
-        this.serviceUrl = storedUrl;
-      }
       if (storedToken) {
         this.token = storedToken;
       }
@@ -60,7 +51,6 @@ export const useZeroClawStore = defineStore('zeroclaw', {
       if (typeof window === 'undefined') {
         return;
       }
-      window.localStorage.setItem(STORAGE_KEYS.serviceUrl, this.serviceUrl);
       if (this.token) {
         window.localStorage.setItem(STORAGE_KEYS.token, this.token);
       } else {
@@ -73,7 +63,6 @@ export const useZeroClawStore = defineStore('zeroclaw', {
       this.errorMessage = '';
       try {
         const token = await pairWithCode({
-          serviceUrl: this.serviceUrl,
           code: this.pairingCode,
           deviceName: this.deviceName,
           deviceType: this.deviceType,

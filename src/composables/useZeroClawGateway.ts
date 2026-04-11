@@ -1,5 +1,5 @@
 export interface PairingRequest {
-  serviceUrl: string;
+  serviceUrl?: string;
   code: string;
   deviceName?: string;
   deviceType?: string;
@@ -20,7 +20,15 @@ export function normalizeServiceUrl(rawUrl: string): string {
   }
 }
 
-function buildApiUrl(serviceUrl: string, path: string) {
+function buildApiUrl(serviceUrl: string | undefined, path: string) {
+  if (typeof window !== 'undefined') {
+    return new URL(path.replace(/^\/+/, ''), window.location.origin).toString();
+  }
+
+  if (!serviceUrl) {
+    throw new Error('Service URL is required when not running in the browser');
+  }
+
   const baseUrl = normalizeServiceUrl(serviceUrl);
   return new URL(path.replace(/^\/+/, ''), `${baseUrl}/`).toString();
 }
@@ -65,8 +73,10 @@ export function getChatWebSocketUrl(
   sessionId?: string,
   name?: string,
 ): string {
-  const baseUrl = normalizeServiceUrl(serviceUrl);
-  const url = new URL('/ws/chat', `${baseUrl}/`);
+  const url =
+    typeof window !== 'undefined'
+      ? new URL('/ws/chat', window.location.href)
+      : new URL('/ws/chat', `${normalizeServiceUrl(serviceUrl)}/`);
   url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
   url.searchParams.set('token', token);
   if (sessionId) {
