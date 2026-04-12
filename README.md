@@ -2,6 +2,10 @@
 
 ZeroClaw multiple sessions interface
 
+`orbits` is a Quasar SPA frontend that connects to a running ZeroClaw Gateway. It is a separate UI project, not the gateway itself.
+
+When developing `orbits`, you can refer to the official ZeroClaw web UI implementation in `zeroclaw/web/`, which is another independent frontend project located under `zeroclaw` in this repo.
+
 ## Install the dependencies
 
 ```bash
