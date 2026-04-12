@@ -89,6 +89,8 @@
         </div>
         <div v-if="store.lastPairedAt">配對時間: {{ formattedPairedAt }}</div>
       </div>
+
+      <ZeroClawChat v-if="store.isPaired" />
     </q-card-section>
   </q-card>
 </template>
@@ -96,6 +98,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useZeroClawStore } from 'stores/zeroclaw-store';
+import ZeroClawChat from 'components/ZeroClawChat.vue';
 
 const store = useZeroClawStore();
 
