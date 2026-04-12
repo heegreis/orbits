@@ -12,10 +12,7 @@
       </div>
     </div>
 
-    <div
-      ref="messagesContainer"
-      class="chat-messages bg-grey-1 q-pa-sm rounded-borders"
-    >
+    <div ref="messagesContainer" class="chat-messages bg-grey-1 q-pa-sm rounded-borders">
       <div v-if="messages.length === 0" class="text-caption text-grey">
         輸入文字並送出，讓 Agent 回覆你。
       </div>
@@ -28,7 +25,9 @@
       >
         <div class="chat-bubble">
           <div class="chat-meta text-caption text-grey">
-            {{ message.author === 'user' ? '你' : message.author === 'assistant' ? 'Agent' : '系統' }}
+            {{
+              message.author === 'user' ? '你' : message.author === 'assistant' ? 'Agent' : '系統'
+            }}
           </div>
           <div class="chat-text">{{ message.text }}</div>
           <div v-if="message.status" class="chat-status text-caption text-grey">
@@ -51,12 +50,7 @@
           />
         </div>
         <div class="col-auto">
-          <q-btn
-            label="發送"
-            color="primary"
-            :disable="!canSend"
-            @click="sendMessage"
-          />
+          <q-btn label="發送" color="primary" :disable="!canSend" @click="sendMessage" />
         </div>
       </div>
     </q-form>
@@ -103,7 +97,10 @@ const canSend = computed(() => store.isPaired && !!newMessage.value.trim() && is
 
 function generateSessionId(): string {
   try {
-    return window.crypto?.randomUUID?.() ?? `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    return (
+      window.crypto?.randomUUID?.() ??
+      `session-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    );
   } catch {
     return `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }

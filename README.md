@@ -10,9 +10,23 @@ yarn
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
+Before running locally, make sure the ZeroClaw Gateway is running. By default the dev server proxies gateway requests to `http://127.0.0.1:42617`.
+
 ```bash
-quasar dev
+# macOS / Linux
+GATEWAY_URL=http://127.0.0.1:42617 quasar dev
+
+# Windows PowerShell
+$env:GATEWAY_URL = 'http://127.0.0.1:42617'; quasar dev
 ```
+
+When the gateway is available, the Quasar dev server proxies these paths to it:
+
+- `/api`
+- `/ws`
+- `/pair`
+- `/webhook`
+- `/hooks`
 
 ### Lint the files
 
