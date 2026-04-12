@@ -6,8 +6,6 @@ ZeroClaw multiple sessions interface
 
 ```bash
 yarn
-# or
-npm install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
@@ -20,16 +18,12 @@ quasar dev
 
 ```bash
 yarn lint
-# or
-npm run lint
 ```
 
 ### Format the files
 
 ```bash
 yarn format
-# or
-npm run format
 ```
 
 ### Build the app for production
@@ -42,15 +36,15 @@ quasar build
 
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
 
-## Deploy the Orbits UI with `Dockerfile.debian`
+## Deploy the Orbits UI with `Dockerfile`
 
-The root `Dockerfile.debian` builds the Quasar SPA and serves it with `nginx`.
+The root `Dockerfile` builds the Quasar SPA and serves it with `nginx`.
 It also proxies selected ZeroClaw gateway routes so the UI and gateway can be accessed under the same origin.
 
 ### Build the Docker image locally
 
 ```bash
-docker build -f Dockerfile.debian -t orbits-ui .
+docker build -t orbits-ui .
 ```
 
 ### Run the image locally
