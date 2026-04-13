@@ -5,7 +5,7 @@
         <div class="q-mb-xl">
           <div class="text-h5 q-mb-sm">ZeroClaw SPA Pairing</div>
           <div class="text-subtitle1 text-grey">
-            此 SPA 可連線到你目前架設的 ZeroClaw Services。請輸入服務 URL 與 pairing code
+            此 SPA 可連線到你目前架設的 ZeroClaw Services。請輸入 pairing code
             進行配對，配對成功後即可繼續使用 agent 對話。
           </div>
         </div>
