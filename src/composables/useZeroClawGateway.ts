@@ -67,6 +67,63 @@ export async function pairWithCode(request: PairingRequest): Promise<string> {
   return json.token;
 }
 
+export interface ZeroClawSessionMetadata {
+  session_id: string;
+  name?: string;
+  created_at: string;
+  last_activity: string;
+  message_count: number;
+}
+
+export async function fetchSessionList(token: string): Promise<ZeroClawSessionMetadata[]> {
+  const url = buildApiUrl(undefined, '/api/sessions');
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    const message = text || `${response.status} ${response.statusText}`;
+    throw new Error(`Failed to load sessions: ${message}`);
+  }
+
+  const json = await response.json();
+  if (!Array.isArray(json.sessions)) {
+    throw new Error('Unexpected session list response');
+  }
+
+  return json.sessions;
+}
+
+export async function fetchSessionMessages(
+  token: string,
+  sessionId: string,
+): Promise<Array<{ role: string; content: string }>> {
+  const url = buildApiUrl(undefined, `/api/sessions/${encodeURIComponent(sessionId)}/messages`);
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    const message = text || `${response.status} ${response.statusText}`;
+    throw new Error(`Failed to load session messages: ${message}`);
+  }
+
+  const json = await response.json();
+  if (!Array.isArray(json.messages)) {
+    throw new Error('Unexpected session messages response');
+  }
+
+  return json.messages;
+}
+
 export function getChatWebSocketUrl(
   serviceUrl: string,
   token: string,
