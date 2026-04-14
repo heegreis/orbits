@@ -42,7 +42,9 @@ export default defineConfig((ctx) => {
         strict: true,
         vueShim: true,
         extendTsConfig(tsConfig: { include?: string[]; exclude?: string[] }) {
-          tsConfig.include = ['../src/**/*', '../src/**/*.vue'];
+          tsConfig.include = [
+            ...new Set([...(tsConfig.include ?? []), '../src/**/*', '../src/**/*.vue']),
+          ];
           tsConfig.exclude = [...(tsConfig.exclude ?? []), '../zeroclaw', '../zeroclaw/**'];
         },
       },

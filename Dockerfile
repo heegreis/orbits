@@ -4,9 +4,9 @@
 FROM node:22-alpine AS builder
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-COPY . .
+COPY package.json yarn.lock quasar.config.ts index.html ./
 RUN corepack enable && corepack yarn install --immutable || corepack yarn install --frozen-lockfile
+COPY . .
 RUN corepack yarn quasar build
 
 # ── Stage 2: Runtime with Nginx ────────────────────────────────────

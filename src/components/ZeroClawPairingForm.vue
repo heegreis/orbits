@@ -13,7 +13,7 @@
           outlined
           dense
           lazy-rules
-          :rules="[(val) => !!val || '請輸入配對碼']"
+          :rules="[(val) => !!val?.trim().length || '請輸入配對碼']"
           class="q-mb-md"
           placeholder="123456"
         />
@@ -47,7 +47,7 @@
               label="開始配對"
               color="primary"
               :loading="store.pairingStatus === 'pending'"
-              :disable="store.pairingStatus === 'pending' || !store.pairingCode"
+              :disable="store.pairingStatus === 'pending' || !store.pairingCode.trim()"
               type="submit"
             />
           </div>

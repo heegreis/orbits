@@ -41,9 +41,14 @@ export const useZeroClawStore = defineStore('zeroclaw', {
       if (typeof window === 'undefined') {
         return;
       }
-      const storedToken = window.localStorage.getItem(STORAGE_KEYS.token);
-      if (storedToken) {
-        this.token = storedToken;
+
+      try {
+        const storedToken = window.localStorage.getItem(STORAGE_KEYS.token);
+        if (storedToken) {
+          this.token = storedToken;
+        }
+      } catch {
+        // localStorage may be disabled in some environments; do nothing.
       }
     },
 
@@ -51,10 +56,15 @@ export const useZeroClawStore = defineStore('zeroclaw', {
       if (typeof window === 'undefined') {
         return;
       }
-      if (this.token) {
-        window.localStorage.setItem(STORAGE_KEYS.token, this.token);
-      } else {
-        window.localStorage.removeItem(STORAGE_KEYS.token);
+
+      try {
+        if (this.token) {
+          window.localStorage.setItem(STORAGE_KEYS.token, this.token);
+        } else {
+          window.localStorage.removeItem(STORAGE_KEYS.token);
+        }
+      } catch {
+        // localStorage may be unavailable; ignore persistence failures.
       }
     },
 

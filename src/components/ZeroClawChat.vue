@@ -130,7 +130,6 @@
             dense
             placeholder="跟 Agent 說點什麼..."
             :disable="!store.isPaired"
-            @keyup.enter="sendMessage"
           />
         </div>
         <div class="col-auto">
